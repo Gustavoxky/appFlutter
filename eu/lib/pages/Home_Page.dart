@@ -1,4 +1,5 @@
 import 'package:eu/util/Coffee_tile.dart';
+import 'package:eu/util/Coffee_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -12,6 +13,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final List coffeeType = [
+    [
+      'cappucino', 
+      true,
+    ],
+    [
+      'Latte',
+      false,
+    ],
+    [
+      'black',
+      false,
+    ],
+    [
+      'tea',
+      false,
+    ],
+  ];
+
+  void coffeeTypeSelected(int index) {
+    setState(() {
+      for(int i = 0; i < coffeeType.length; i ++) {
+        coffeeType[i][1] = false;
+      }
+      coffeeType[index][1] = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,11 +102,42 @@ class _HomePageState extends State<HomePage> {
         ),
         SizedBox(height: 25),
 
+        Container(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: coffeeType.length,
+            itemBuilder: (context, index) {
+              return CoffeeType(
+                coffeeType: coffeeType[index][0],
+                isSelected: coffeeType[index][1],
+                onTap: () {
+                  coffeeTypeSelected(index);
+                },
+              );
+            },
+          ),
+        ),
+
         Expanded(
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: [
-              CoffeeTitle()
+              CoffeeTile(
+                coffeeImagePath: './lib/images/late.jpg',
+                coffeeName: 'Latte',
+                coffeePrice: '4.20',
+              ),
+              CoffeeTile(
+                coffeeImagePath: './lib/images/Cappuccino1.jpeg',
+                coffeeName: 'Cappuccino',
+                coffeePrice: '5.20',
+              ),
+              CoffeeTile(
+                coffeeImagePath: './lib/images/milk1.jpg',
+                coffeeName: 'Milk coffee thing',
+                coffeePrice: '4.80',
+              ),
               
           ],)
           )
